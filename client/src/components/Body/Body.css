@@ -51,6 +51,31 @@
   word-break: break-word;
 }
 
+.task-urgency {
+  min-width: 70px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.task-urgency.urgency-high {
+  background-color: none;
+  color: #c62828;
+}
+
+.task-urgency.urgency-medium {
+  background-color: none;
+  color: #e65100;
+}
+
+.task-urgency.urgency-low {
+  background-color: none;
+  color: #2e7d32;
+}
+
 .task-date {
   min-width: 100px;
   text-align: center;

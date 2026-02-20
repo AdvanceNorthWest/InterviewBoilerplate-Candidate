@@ -72,7 +72,7 @@ const Body = forwardRef(function Body(_, ref) {
   useEffect(() => {
     getTasks()
       .then((data) => {
-        setTasks(data);
+        setTasks(sortTasks(data));
       })
       .catch((error) => {
         console.error("Failed to load tasks:", error);
@@ -88,11 +88,7 @@ const Body = forwardRef(function Body(_, ref) {
     toggleTask(id)
       .then((updatedTask) => {
         setTasks((prev) =>
-          prev.map((task) =>
-            task.id === id
-              ? { ...task, completed: updatedTask.completed }
-              : task,
-          ),
+          sortTasks(prev.map((task) => (task.id === id ? updatedTask : task))),
         );
       })
       .catch((error) => {
@@ -129,6 +125,11 @@ const Body = forwardRef(function Body(_, ref) {
               />
             </div>
             <div className="task-title">{task.title}</div>
+            <div
+              className={`task-urgency urgency-${task.urgency?.toLowerCase()}`}
+            >
+              {task.urgency}
+            </div>
             <div className="task-date">{task.date}</div>
             <div className="task-status">
               {task.completed ? "Completed" : "ToDo"}
