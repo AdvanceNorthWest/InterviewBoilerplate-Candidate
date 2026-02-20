@@ -1,11 +1,11 @@
 // Pre-configured API client — Base URL points to the Express backend.
 // Use the exported functions to communicate with the server.
 
-const BASE_URL = 'http://localhost:4000';
+const BASE_URL = "http://localhost:4000";
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
     ...options,
   });
 
@@ -25,5 +25,18 @@ async function request(path, options = {}) {
 //   export const createTask = (data)     => request('/tasks', { method: 'POST', body: JSON.stringify(data) });
 //   export const toggleTask = (id)       => request(`/tasks/${id}`, { method: 'PATCH' });
 // ---------------------------------------------------------------------------
+
+export const getTasks = () => request("/tasks");
+
+export const createTask = (data) =>
+  request("/tasks", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+export const toggleTask = (id) =>
+  request(`/tasks/${id}`, {
+    method: "PATCH",
+  });
 
 export { request };

@@ -1,4 +1,5 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
+import { getTasks, createTask, toggleTask } from "../../api";
 import "./Body.css";
 
 const Body = forwardRef(function Body(_, ref) {
@@ -25,64 +26,81 @@ const Body = forwardRef(function Body(_, ref) {
 
     return [...sortedIncomplete, ...completed];
   };
+  // const [tasks, setTasks] = useState(() =>
+  //   sortTasks([
+  //     {
+  //       id: 1,
+  //       title: "Finish this TaskList",
+  //       date: "2026-02-20",
+  //       urgency: "Medium",
+  //       completed: false,
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "Hola Austin",
+  //       date: "2026-02-19",
+  //       urgency: "Medium",
+  //       completed: false,
+  //     },
+  //     {
+  //       id: 3,
+  //       title: "Eat Breakfast",
+  //       date: "2026-02-19",
+  //       urgency: "Medium",
+  //       completed: false,
+  //     },
+  //     // I wanted to make sure my states were working, so I set it to true.
+  //     {
+  //       id: 4,
+  //       title: "Take cat nap",
+  //       date: "2026-02-19",
+  //       urgency: "Low",
+  //       completed: true,
+  //     },
+  //   ]),
+  // );
 
-  const [tasks, setTasks] = useState(() =>
-    sortTasks([
-      {
-        id: 1,
-        title: "Finish this TaskList",
-        date: "2026-02-20",
-        urgency: "Medium",
-        completed: false,
-      },
-      {
-        id: 2,
-        title: "Hola Austin",
-        date: "2026-02-19",
-        urgency: "Medium",
-        completed: false,
-      },
-      {
-        id: 3,
-        title: "Eat Breakfast",
-        date: "2026-02-19",
-        urgency: "Medium",
-        completed: false,
-      },
-      // I wanted to make sure my states were working, so I set it to true.
-      {
-        id: 4,
-        title: "Take cat nap",
-        date: "2026-02-19",
-        urgency: "Low",
-        completed: true,
-      },
-    ]),
-  );
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getTasks()
+      .then((data) => {
+        setTasks(data);
+      })
+      .catch((error) => {
+        console.error("Failed to load tasks:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const handleCheckboxChange = (id) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task,
-    );
-    setTasks(sortTasks(updatedTasks));
+    toggleTask(id)
+      .then((updatedTask) => {
+        setTasks((prev) =>
+          prev.map((task) =>
+            task.id === id
+              ? { ...task, completed: updatedTask.completed }
+              : task,
+          ),
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to toggle task:", error);
+      });
   };
 
   useImperativeHandle(ref, () => ({
     addTask(newTask) {
-      const id = Date.now();
-      setTasks((prev) => {
-        const updated = [
-          ...prev,
-          {
-            id,
-            title: newTask.title,
-            date: newTask.date || "",
-            urgency: newTask.urgency || "Low",
-            completed: false,
-          },
-        ];
-        return sortTasks(updated);
-      });
+      createTask(newTask)
+        .then((createdTask) => {
+          setTasks((prev) => sortTasks([...prev, createdTask]));
+        })
+        .catch((err) => {
+          console.error("Failed to create task:", err);
+        });
     },
   }));
   return (

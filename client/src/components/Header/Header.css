@@ -28,10 +28,14 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   user-select: none;
+  transition:
+    transform 0.7s ease,
+    background-color 0.4s ease;
 }
 
 .fab:hover {
   background-color: #666;
+  transform: scale(1.15);
 }
 .fab:focus {
   outline: 2px solid #666;
