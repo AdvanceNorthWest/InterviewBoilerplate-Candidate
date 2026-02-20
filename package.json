@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "cd server && node --watch server.js",
-    "dev:client": "cd client && npx vite --port 3000"
+    "dev:client": "cd client && npx vite --port 3000 --open"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

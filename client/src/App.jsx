@@ -12,11 +12,12 @@
 //       2. Send PATCH request to server
 //       3. On failure: revert state and alert the user
 // ---------------------------------------------------------------------------
+import Header from "./components/Header/Header";
 
 function App() {
   return (
     <div>
-      <h3>System Status: Online</h3>
+      <Header></Header>
     </div>
   );
 }
