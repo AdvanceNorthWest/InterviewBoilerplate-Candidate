@@ -1,8 +1,9 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px;
+  position: relative;
 }
 
 .header h1 {
@@ -11,8 +12,33 @@
   margin: 0;
 }
 
-.add-item-btn {
-  margin-left: auto;
-  /* background-color: transparent; */
-  /* border: none; */
+/* Floating action button (top-right) */
+.fab {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #000; /* black tone */
+  color: #cfcfcf; /* light grey for icon */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fab:hover {
+  background-color: #666;
+}
+.fab:focus {
+  outline: 2px solid #666;
+}
+
+.fab-plus {
+  font-size: 26px;
+  line-height: 1;
+  color: #cfcfcf; /* light grey */
 }
