@@ -4,7 +4,7 @@ import "./Body.css";
 
 const Body = forwardRef(function Body(_, ref) {
   const urgencyOrder = { High: 0, Medium: 1, Low: 2 };
-
+  // my sorting logic: urgency first, then date, and completed tasks get pushed to the end.
   const sortTasks = (taskList) => {
     const incomplete = taskList.filter((t) => !t.completed);
     const completed = taskList.filter((t) => t.completed);
@@ -26,6 +26,9 @@ const Body = forwardRef(function Body(_, ref) {
 
     return [...sortedIncomplete, ...completed];
   };
+
+  //I used a premade list as mock data to quickly test that the list and priority features were working.
+
   // const [tasks, setTasks] = useState(() =>
   //   sortTasks([
   //     {
@@ -49,6 +52,7 @@ const Body = forwardRef(function Body(_, ref) {
   //       urgency: "Medium",
   //       completed: false,
   //     },
+
   //     // I wanted to make sure my states were working, so I set it to true.
   //     {
   //       id: 4,
@@ -63,6 +67,8 @@ const Body = forwardRef(function Body(_, ref) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  //this is what fetches tasks from my backend when the component loads
+
   useEffect(() => {
     getTasks()
       .then((data) => {
@@ -75,6 +81,8 @@ const Body = forwardRef(function Body(_, ref) {
         setLoading(false);
       });
   }, []);
+
+  // Sends a toggle request to the backend and updates the task locally
 
   const handleCheckboxChange = (id) => {
     toggleTask(id)
@@ -91,6 +99,8 @@ const Body = forwardRef(function Body(_, ref) {
         console.error("Failed to toggle task:", error);
       });
   };
+
+  // creates the task in the backend, then re-sorts the list
 
   useImperativeHandle(ref, () => ({
     addTask(newTask) {
