@@ -1,3 +1,6 @@
 /info.md
 /node_modules
 /README.md
+server/tasks.db
+server/tasks.db-shm
+server/tasks.db-wal
