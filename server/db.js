@@ -1,10 +1,10 @@
-const { DatabaseSync } = require('node:sqlite');
-const path = require('path');
+const { DatabaseSync } = require("node:sqlite");
+const path = require("path");
 
-const db = new DatabaseSync(path.join(__dirname, 'tasks.db'));
+const db = new DatabaseSync(path.join(__dirname, "tasks.db"));
 
 // Enable WAL mode for better concurrent read performance
-db.exec('PRAGMA journal_mode = WAL;');
+db.exec("PRAGMA journal_mode = WAL;");
 
 // ---------------------------------------------------------------------------
 // TODO (Candidate): Create your `tasks` table here using db.exec(`...`)
@@ -23,5 +23,13 @@ db.exec('PRAGMA journal_mode = WAL;');
 //   stmt.get(id)    — returns the first row
 //   stmt.run(args)  — executes the statement (INSERT / UPDATE / DELETE)
 // ---------------------------------------------------------------------------
+
+db.exec(`CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        is_completed INTEGER NOT NULL DEFAULT 0,
+        priority TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )`);
 
 module.exports = db;
