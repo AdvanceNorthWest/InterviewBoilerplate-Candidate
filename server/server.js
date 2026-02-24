@@ -22,6 +22,7 @@ function startServer(port) {
   app.listen(port)
     .on('listening', () => {
       console.log(`Server running on http://localhost:${port}`);
+      console.log(`Health check available at http://localhost:${port}/health`);
     })
     .on('error', (err) => {
       if (err.code === 'EADDRINUSE') {
