@@ -39,22 +39,10 @@ npm run client
 |-----------|---------|
 | **Total Duration** | 90 Minutes |
 | **Coding Time** | 60 Minutes |
-| **Goal** | Assess architectural thinking, database handling, and state management |
 
 ---
 
-## Interview Sections
-
-### Section 1: Introduction & Setup (10 minutes)
-
-- Brief introductions
-- Verify development environment is working
-- Confirm screen sharing is active
-- Clarify AI/Google usage policy
-
----
-
-### Section 2: Coding Challenge (60 minutes)
+## Coding Challenge
 
 #### Scenario
 
@@ -62,7 +50,7 @@ You are building the core feature for a team task manager. We need a list where 
 
 #### Requirements
 
-##### 2.1 Database Schema
+##### Database Schema
 
 Design a `tasks` table with the following columns:
 
@@ -73,7 +61,7 @@ Design a `tasks` table with the following columns:
 | `priority` | Enum/Text | Must distinguish between Low, Medium, High |
 | `created_at` | Timestamp | Creation timestamp |
 
-##### 2.2 Backend API
+##### Backend API
 
 Implement the following REST endpoints:
 
@@ -83,7 +71,7 @@ Implement the following REST endpoints:
 | `POST` | `/tasks` | Adds a new task |
 | `PATCH` | `/tasks/:id` | Toggles the completion status |
 
-##### 2.3 Frontend
+##### Frontend
 
 **Display:**
 - Render the list of tasks
@@ -104,7 +92,7 @@ Implement the following REST endpoints:
 
 ## Submission Checklist
 
-Before the interview ends, ensure:
+Before submitting, ensure:
 
 - [ ] Code is committed and pushed to the repository
 - [ ] All required endpoints are implemented
