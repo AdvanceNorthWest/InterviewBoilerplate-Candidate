@@ -15,8 +15,8 @@ npm run dev
 ```
 
 ### Verification Checks
-- Frontend: `http://localhost:3000`
-- Backend Health: `http://localhost:4000/health`
+- Frontend: `http://localhost:3000` (auto-increments if port is taken)
+- Backend Health: `http://localhost:4000/health` (auto-increments if port is taken)
 - API Endpoint: `http://localhost:4000/tasks`
 
 ### Useful Development Commands

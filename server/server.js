@@ -3,10 +3,11 @@ const cors = require('cors');
 const router = require('./routes');
 
 const app = express();
-const PORT = 4000;
+const DEFAULT_PORT = 4000;
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' }));
+// Allow any localhost origin so the client works regardless of which port Vite picks
+app.use(cors({ origin: /^http:\/\/localhost(:\d+)?$/ }));
 app.use(express.json());
 
 // Health check — leave this as-is
@@ -17,6 +18,19 @@ app.get('/health', (req, res) => {
 // Mount task routes
 app.use(router);
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+function startServer(port) {
+  app.listen(port)
+    .on('listening', () => {
+      console.log(`Server running on http://localhost:${port}`);
+    })
+    .on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.warn(`Port ${port} is in use, trying ${port + 1}...`);
+        startServer(port + 1);
+      } else {
+        throw err;
+      }
+    });
+}
+
+startServer(DEFAULT_PORT);
