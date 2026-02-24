@@ -2,6 +2,12 @@
 
 ## Quick Reference Commands
 
+### First time setup
+```bash
+# One command installs all dependincies for both frontend and backend
+npm run setup
+```
+
 ### Starting the Application
 ```bash
 # From the root directory, start both frontend and backend
