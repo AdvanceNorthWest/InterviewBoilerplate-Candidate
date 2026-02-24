@@ -1,5 +1,7 @@
 /info.md
 /node_modules
+/server/node_modules
+/client/node_modules
 /README.md
 server/tasks.db
 server/tasks.db-shm
