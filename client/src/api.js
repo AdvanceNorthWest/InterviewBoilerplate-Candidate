@@ -21,9 +21,13 @@ async function request(path, options = {}) {
 // TODO (Candidate): Add functions here that call your API endpoints.
 //
 // Examples to implement:
-//   export const getTasks   = ()         => request('/tasks');
-//   export const createTask = (data)     => request('/tasks', { method: 'POST', body: JSON.stringify(data) });
-//   export const toggleTask = (id)       => request(`/tasks/${id}`, { method: 'PATCH' });
+export const getTasks   = ()         => request('/tasks');
+export const createTask = (data)     => request('/tasks', { method: 'POST', body: JSON.stringify(data) });
+export const toggleTask = (id)       => request(`/tasks/${id}`, { method: 'PATCH' });
 // ---------------------------------------------------------------------------
+
+// export const getTasks = () => request('/tasks');
+// export const createTask = (data) => request('/tasks', {method: 'POST', body: JSON.stringify(data)});
+// export const toggleTask = (id) => request(`/tasks/${id}`, { method: 'PATCH'});
 
 export { request };
