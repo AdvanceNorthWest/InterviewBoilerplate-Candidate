@@ -12,13 +12,124 @@
 //       2. Send PATCH request to server
 //       3. On failure: revert state and alert the user
 // ---------------------------------------------------------------------------
+import { createTask, getTasks, toggleTask } from './api';
+import { useEffect, useState } from 'react';
+import './TaskManager.css';
 
 function App() {
-  return (
-    <div>
-      <h3>System Status: Online</h3>
+
+  const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState('');
+  const [priority, setPriority] = useState('Low');
+
+
+  useEffect (() => {
+    async function loadTasks(){
+      const data = await getTasks();
+      setTasks(data)
+    }
+
+    loadTasks()
+  },[])
+
+  async function handleAddTask() {
+    if(!title.trim() || !priority){
+      alert('Must have title and priority');
+      return
+    }
+    try{
+      const result = await createTask({title: title, priority: priority})
+    
+      if (!result.ok){
+        throw new Error('Network resonse was not ok');
+      }
+      const data = await result.json()
+      return data;
+    }catch(err) {
+      console.error('Error:', err);
+    }
+  };
+
+
+  async function handleToggleTask(id) {
+
+    const originalTasks = [...tasks];
+    const updatedTasks = tasks.map(task =>
+      task.id === id ? { ...task, is_completed: !task.is_completed} : task
+    );
+    setTasks(updatedTasks);
+
+    try{
+      await toggleTask(id);
+    }catch(err){
+      setTasks(originalTasks);
+      alert('Failed to update task')
+    }
+  };
+
+
+
+ return (
+  <div className="container">
+    <h3>TASK MANAGER</h3>
+
+    <form className="task-form" onSubmit={handleAddTask}>
+      <input
+        value={title}
+        placeholder="Task Title"
+        onChange={(event) => setTitle(event.target.value)}
+      />
+      <select
+        value={priority}
+        onChange={(event) => setPriority(event.target.value)}
+      >
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+      <button type="submit">Add Task</button>
+    </form>
+
+    <div className="table-wrapper">
+      <table className="task-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Task Name</th>
+            <th>Priority Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.map((task) => (
+            <tr key={task.id}>
+              <td className="text-center">
+                <input
+                  type="checkbox"
+                  checked={task.is_completed}
+                  onChange={() => handleToggleTask(task.id)}
+                />
+              </td>
+              <td className={task.is_completed ? "completed-text" : ""}>
+                {task.title}
+              </td>
+              <td className="priority-cell">
+                <span 
+                  className="priority-badge"
+                  style={{
+                    backgroundColor: task.priority === 'High' ? '#FF6666' : 
+                                     task.priority === 'Medium' ? '#FFCC99' : '#B2C2B2'
+                  }}
+                >
+                  {task.priority}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
+  </div>
+);
 }
 
 export default App;

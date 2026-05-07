@@ -24,4 +24,16 @@ db.exec('PRAGMA journal_mode = WAL;');
 //   stmt.run(args)  — executes the statement (INSERT / UPDATE / DELETE)
 // ---------------------------------------------------------------------------
 
+
+db.exec(`
+    CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    is_completed INTEGER NOT NULL DEFAULT 0,
+    priority TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))    
+    );
+`)
+
+
 module.exports = db;
