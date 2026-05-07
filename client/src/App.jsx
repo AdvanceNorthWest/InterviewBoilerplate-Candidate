@@ -14,6 +14,7 @@
 // ---------------------------------------------------------------------------
 import { createTask, getTasks, toggleTask } from './api';
 import { useEffect, useState } from 'react';
+import './TaskManager.css';
 
 function App() {
 
@@ -68,56 +69,67 @@ function App() {
 
 
 
-  return (
-    <div>
-      <h3>TASK MANAGER</h3>
+ return (
+  <div className="container">
+    <h3>TASK MANAGER</h3>
 
-        <form
-          onSubmit={handleAddTask}>
-          <input
-            value={title}
-            placeholder='Task Title'
-            onChange={(event) => setTitle(event.target.value) }
-          ></input>
-          <select
-            value={priority}
-            onChange= {(event) => setPriority(event.target.value)}>
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-          </select>
+    <form className="task-form" onSubmit={handleAddTask}>
+      <input
+        value={title}
+        placeholder="Task Title"
+        onChange={(event) => setTitle(event.target.value)}
+      />
+      <select
+        value={priority}
+        onChange={(event) => setPriority(event.target.value)}
+      >
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+      <button type="submit">Add Task</button>
+    </form>
 
-          <button>Add Task</button>
-
-        </form>
-
-        <ul>
+    <div className="table-wrapper">
+      <table className="task-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Task Name</th>
+            <th>Priority Level</th>
+          </tr>
+        </thead>
+        <tbody>
           {tasks.map((task) => (
-            <li key={task.id}>
-              <input 
-              type='checkbox'
-              checked={task.is_completed}
-              onChange={(event) => handleToggleTask(task.id)}></input>
-              <span style={{
-                backgroundColor: task.priority === 'High' ? '#FF6666' : 
-                task.priority === 'Medium' ? '#FFCC99' : '#c8e86e'}}>
-                  <span style={{ margin: '10px', textDecoration: task.is_completed ? 'line-through' : 'none'}}>
-                  {task.title} ----- {task.priority}</span>
-
-                  </span>
-            </li>
-
-   
+            <tr key={task.id}>
+              <td className="text-center">
+                <input
+                  type="checkbox"
+                  checked={task.is_completed}
+                  onChange={() => handleToggleTask(task.id)}
+                />
+              </td>
+              <td className={task.is_completed ? "completed-text" : ""}>
+                {task.title}
+              </td>
+              <td className="priority-cell">
+                <span 
+                  className="priority-badge"
+                  style={{
+                    backgroundColor: task.priority === 'High' ? '#FF6666' : 
+                                     task.priority === 'Medium' ? '#FFCC99' : '#B2C2B2'
+                  }}
+                >
+                  {task.priority}
+                </span>
+              </td>
+            </tr>
           ))}
-
-
-
-
-        </ul>
-
-
+        </tbody>
+      </table>
     </div>
-  );
+  </div>
+);
 }
 
 export default App;
